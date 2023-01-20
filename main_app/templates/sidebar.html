@@ -1,0 +1,39 @@
+{% load templatetag %}
+<div class="d-flex h-100 flex-column p-3 text-white bg-dark rounded-2" style="width: 250px;">
+  <ul class="nav nav-pills flex-column mb-auto  ">
+    <li class="nav-item">
+      <a href="{% url 'principal' %}"
+         class="nav-link {% if request.path == '/admin-fabrim/principal/' %}active {% else %} text-white {% endif %}"
+         aria-current="page">
+        Inicio
+      </a>
+    </li>
+    {% comment %} #TODO: Como cambio esto pa que m muestre solo en el sidebar los menues q el grupo de permisos permite al usuario {% endcomment %}
+    {% if request.user|has_group:"Administrador" or request.user|has_group:"Dependiente" %} 
+    <li>
+      <a href="{% url 'medicamentos' %}"
+         class="nav-link {% if request.path == '/admin-fabrim/medicamentos/' %}active {% else %} text-white {% endif %}">
+        Medicamentos
+      </a>
+    </li> 
+    {% endif %}
+    {% comment %} #TODO: Como cambio esto pa que m muestre solo en el sidebar los menues q el grupo de permisos permite al usuario {% endcomment %}
+    {% if request.user|has_group:"Administrador" or request.user|has_group:"Dependiente" or request.user|has_group:"Almacenero" %} 
+    <li>
+      <a href="{% url 'tarjetas-estiba' %}"
+         class="nav-link {% if request.path == '/admin-fabrim/tarjetas-estiba/' %}active {% else %} text-white {% endif %}">
+        Tarjetas de Estiba
+      </a>
+    </li>
+    {% endif %}
+    {% comment %} #TODO: Como cambio esto pa que m muestre solo en el sidebar los menues q el grupo de permisos permite al usuario {% endcomment %}
+    {% if request.user|has_group:"Almacenero" %} 
+    <li>
+      <a href="{% url 'pedidos' %}"
+         class="nav-link {% if request.path == '/admin-fabrim/pedidos/' %}active {% else %} text-white {% endif %}">
+        Pedidos
+      </a>
+    </li>
+    {% endif %} 
+  </ul>
+</div>

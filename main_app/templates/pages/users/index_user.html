@@ -1,0 +1,28 @@
+{% extends "base_users.html" %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
+{% block content_title %}
+  {{ title }}
+{% endblock content_title %}
+{% block content_table %}
+<div class="w-auto h-auto d-flex flex-row flex-shrink justify-content-center">
+  {% comment %} Cards {% endcomment %}
+  {% for el in object_list %}
+        <div class="card rounded-5 d-flex flex-col p-4 shadow-lg mx-4">
+          <div class="flex-column justify-content-center">
+              <div class="text-center w-100 my-1">
+                  <p class="h5 text-center mb-3 m-0 bg-transparent font-weight-bold">{{ el.nombre }}</p>
+              </div>
+              <p class="text-muted h-6"><strong>Tipo: </strong> {{ el.tipo_medicamento_id.nombre }} </p>
+              <p class="text-muted h-6"><strong>Precio: </strong> {{ el.tarjeta_estiba_id.precio }}$</p>
+              <p class="text-muted h-6"><strong>Cantidad: </strong> {{ el.tarjeta_estiba_id.cant_medi }} </p>
+              <a class="text-decoration-none d-flex justify-content-center" href="{% url 'comprar' el.pk %}">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Comprar</button>
+              </a>
+          </div>
+        </div>
+  {% endfor %}
+</div>
+{% endblock content_table %}

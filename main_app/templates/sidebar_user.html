@@ -1,0 +1,17 @@
+<div class="d-flex h-100 flex-column flex-shrink-0 p-3 text-white bg-dark rounded-2 ">
+  <ul class="nav nav-pills flex-column mb-auto  ">
+    <li class="nav-item">
+      <a href="{% url 'index_users' %}"
+         class="nav-link {% if request.path == '/fabrim/medicamentos/' %}active {% else %} text-white {% endif %}"
+         aria-current="page">
+        Medicamentos
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'compras_users' %}"
+         class="nav-link {% if request.path == '/fabrim/compras/' %}active {% else %} text-white {% endif %}">
+        Compras
+      </a>
+    </li>
+  </ul>
+</div>

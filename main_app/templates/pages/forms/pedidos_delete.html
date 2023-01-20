@@ -1,0 +1,25 @@
+{% extends "base_admin.html" %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
+{% block content_table %}
+    <div class="p-5 d-flex flex-column justify-content-center align-items-center  ">
+        <p class="display-6 text-center mb-3 fw-light m-0 bg-transparent">{{ title }}</p>
+        <div class="card rounded-5 d-flex flex-col p-4 w-50 shadow-lg">
+            <form method='post' class="p-2">
+                {% csrf_token %}
+                <p>
+                    ¿Desea eliminar el pedido con fecha <mark>{{ object.fecha }}</mark>?
+                    Si confirma esta acción no se podrá revertir y se eliminarán los elementos asociados al mismo.
+                </p>
+                <div class="  d-flex justify-content-between">
+                    <a class="text-decoration-none" href="{% url 'pedidos' %}">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    </a>
+                    <button type="submit" class="btn btn-success" id="btnappend">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content_table %}

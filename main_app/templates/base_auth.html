@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FABRIM | {% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href={% static 'css/bootstrap.min.css' %} />
+    <link rel="stylesheet" href={% static 'css/my_styles.css' %} />
+  </head>
+  <body
+    class="d-flex p-2 flex-column min-vh-100 justify-content-center align-content-center align-items-lg-center"
+    style="background-color: rgb(16, 39, 104)"
+  >
+    {% block content %} {% endblock content %}
+
+    <script src={% static 'js/bootstrap.min.js' %}></script>
+    <script src={% static 'js/bootstrap.bundle.min.js' %}></script>
+    <script src="{% static 'js/sweetalert2@11.js'%}"></script>
+    
+    {% if messages %}
+      {% for msg in messages %}
+      {% if icon %}
+      <script>
+        Swal.fire({'title' : "Error!" , "text" : "{{ msg}}", "icon": "{{icon}}"})
+      </script>
+      {% else %}
+        <script>
+          Swal.fire({'title' : "¡Hecho!" , "text" : "{{ msg}}", "icon": "success"})
+        </script>
+      {% endif %}
+      {% endfor %}
+    {% endif %}
+  </body>
+</html>

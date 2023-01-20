@@ -1,0 +1,122 @@
+{% extends "base_admin.html" %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
+{% block content_table %}
+    <div class="d-flex flex-column justify-content-center align-items-center  ">
+        <p class="display-6 text-center mb-3 fw-light m-0 bg-transparent">{{ title }}</p>
+        <div class="card rounded-5 d-flex flex-col p-4 w-50 shadow-lg">
+            <form method='post' class="p-2">
+                {% csrf_token %}
+                <div class="container">
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <label for="{{ form.nombre.id_for_label }}" class="form-label">Nombre:</label>
+                            <input type="text"
+                                   name="{{ form.nombre.html_name }}"
+                                   {% if form.nombre.value %} value="{{ form.nombre.value }}"{% endif %}
+                                   class="form-control"
+                                   id="{{ form.nombre.id_for_label }}"
+                                   maxlength="255"
+                                   />
+                            {% if form.nombre.errors %}
+                                <div class="alert alert-danger sm m-1 p-2 small" role="alert">
+                                    {% for error in form.nombre.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-6">
+                            <label for="{{ form.no_lote.id_for_label }}" class="form-label">No. Lote:</label>
+                            <input type="text"
+                                   name="{{ form.no_lote.html_name }}"
+                                   {% if form.no_lote.value %} value="{{ form.no_lote.value }}"{% endif %}
+                                   class="form-control"
+                                   id="{{ form.no_lote.id_for_label }}"
+                                   maxlength="255"
+                                   />
+                            {% if form.no_lote.errors %}
+                                <div class="alert alert-danger sm m-1 p-2 small" role="alert">
+                                    {% for error in form.no_lote.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>  
+                    <div class="row">
+                        <div class="col-6 mb-4">
+                            <label for="{{ form.fecha_cad.id_for_label }}" class="form-label">Fecha de Caducidad:</label>
+                            <input type="date"
+                                   name="{{ form.fecha_cad.html_name }}"
+                                   {% if form.fecha_cad.value %} value="{{ form.fecha_cad.value }}"{% endif %}
+                                   class="form-control"
+                                   id="{{ form.fecha_cad.id_for_label }}"
+                                   maxlength="255"
+                                   />
+                            {% if form.fecha_cad.errors %}
+                                <div class="alert alert-danger sm m-1 p-2 small" role="alert">
+                                    {% for error in form.fecha_cad.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-6 mb-4">
+                            <label for="{{ form.tarjeta_estiba_id.id_for_label }}" class="form-label">Tarjeta Estiba:</label>
+                            <select type="text"
+                                    name="{{ form.tarjeta_estiba_id.html_name }}"
+                                    {% if form.tarjeta_estiba_id.value %} value="{{ form.tarjeta_estiba_id.value }}"{% endif %}
+                                    class="form-control"
+                                    id="{{ form.tarjeta_estiba_id.id_for_label }}"
+                                    maxlength="255"
+                                    >
+                                <option value="">
+                                    Seleccione
+                                </option>
+                                {% for el in tarjetas_estiba %}
+                                    <option value={{ el.pk }}>
+                                        {{ el.no_serie }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            {% if form.tarjeta_estiba_id.errors %}
+                                <div class="alert alert-danger sm m-1 p-2 small" role="alert">
+                                    {% for error in form.tarjeta_estiba_id.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row  mb-4">
+                        <div class="col-12">
+                            <label for="{{ form.tipo_medicamento_id.id_for_label }}" class="form-label">Tipo de Medicamento:</label>
+                            <select type="text"
+                                    name="{{ form.tipo_medicamento_id.html_name }}"
+                                    {% if form.tipo_medicamento_id.value %} value="{{ form.tipo_medicamento_id.value }}"{% endif %}
+                                    class="form-control"
+                                    id="{{ form.tipo_medicamento_id.id_for_label }}"
+                                    maxlength="255"
+                                    >
+                                <option value="">
+                                    Seleccione
+                                </option>
+                                {% for el in tipos_medicamentos %}
+                                    <option value={{ el.pk }}>
+                                        {{ el.nombre }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            {% if form.tipo_medicamento_id.errors %}
+                                <div class="alert alert-danger sm m-1 p-2 small" role="alert">
+                                    {% for error in form.tipo_medicamento_id.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a class="text-decoration-none" href="{% url 'medicamentos' %}">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    </a>
+                    <button type="submit" class="btn btn-success" id="btnappend">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content_table %}

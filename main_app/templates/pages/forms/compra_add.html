@@ -1,0 +1,54 @@
+{% extends "base_users.html" %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
+{% block content_table %}
+  <div class="flex-column p-1 w-100 h-auto">
+    <div class="p-5 d-flex flex-column justify-content-center align-items-center  ">
+        <p class="display-6 text-center mb-3 fw-light m-0 bg-transparent">{{ title }}: <span class="text-muted">{{ medicamento.nombre }}</span></p>
+        <div class="card rounded-5 d-flex flex-col p-4 w-50 shadow-lg">
+            <form method='post' class="p-2">
+                {% csrf_token %}
+                <div class=" mb-4  ">
+                    <label for="{{ form.cantidad.id_for_label }}" class="form-label">Cantidad</label>
+                    <input type="number"
+                           name="{{ form.cantidad.html_name }}"
+                           {% if form.cantidad.value %} value="{{ form.cantidad.value }}"{% endif %}
+                           class="form-control"
+                           id="{{ form.cantidad.id_for_label }}"
+                           maxlength="255"
+                           required/>
+                    {% if form.cantidad.errors %}
+                        <div class="alert alert-danger sm m-1 p-2 small" role="alert">
+                            {% for error in form.cantidad.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class=" mb-4  ">
+                    <label for="{{ form.tarjeta_bancaria.id_for_label }}" class="form-label">Tarjeta Bancaria</label>
+                    <input type="text"
+                           name="{{ form.tarjeta_bancaria.html_name }}"
+                           {% if form.tarjeta_bancaria.value %} value="{{ form.tarjeta_bancaria.value }}"{% endif %}
+                           class="form-control"
+                           id="{{ form.tarjeta_bancaria.id_for_label }}"
+                           maxlength="255"
+                           required/>
+                    {% if form.tarjeta_bancaria.errors %}
+                        <div class="alert alert-danger sm m-1 p-2 small" role="alert">
+                            {% for error in form.tarjeta_bancaria.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="  d-flex justify-content-between">
+                    <a class="text-decoration-none" href="{% url 'index_users' %}">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    </a>
+                    <button type="submit" class="btn btn-success">Comprar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+{% endblock content_table %}

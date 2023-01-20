@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+      {% block title %}
+        Los medicamentos que usted busca.
+      {% endblock title %}
+{% block content %}
+      <div class="row-fluid bg-dark p-3 rounded-2   text-white text-center h5 mb-0"> FABRIM | Los medicamentos que usted busca.</div>
+      <div class="row">
+        <div class="col-3 ">{% include "sidebar_user.html" %}</div>
+        <div class="col-9 ">
+          <div class="   p-3 flex-column justify-content-center align-content-center align-items-center w-100">
+              <p class="display-6 m-0   text-center mb-4">
+                {% block content_title %}
+                {% endblock content_title %}
+              </p>
+            {% block content_table %}
+            {% endblock content_table %}
+          </div>
+        </div>
+      </div>
+     
+{% endblock content %}
+

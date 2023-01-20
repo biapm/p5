@@ -1,0 +1,38 @@
+{% extends "base_admin.html" %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock title %}
+{% block content_table %}
+    <div class="p-5 d-flex flex-column justify-content-center align-items-center  ">
+        <div class="card rounded-5 d-flex flex-col p-4 w-50 shadow-lg">
+            <div class="d-flex flex-column mb-3">
+                <div class="text-center w-100 my-1">
+                    <p class="display-6 text-center mb-3 fw-light m-0 bg-transparent">{{ reporte.medicamento }}</p>
+                </div>
+                <div class="mt-1">
+                    <ul>
+                        <li>
+                            <p class="h5">Fecha: {{ reporte.fecha }}</p>
+                        </li>
+                        <li>
+                            <p class="h5">No. Serie: <span class="text-uppercase">{{ reporte.no_serie }}</span></p>
+                        </li>
+                        <li>
+                            <p class="h5">No. Lote: <span class="text-uppercase">{{ reporte.no_lote }}</span></p>
+                        </li>
+                        <li>
+                            <p class="h5">Cant. Medicamento: {{ reporte.cantidad_medicamento }}</p>
+                        </li>
+                    </ul>
+                    <p class="h3 text-center text-muted">Total pagado: {{ reporte.cantidad_pagada }}</p>
+                </div>
+            </div>
+            <div class="  d-flex flex-row-reverse">
+                <a class="text-decoration-none" href="{% url 'pedidos' %}">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Regresar</button>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock content_table %}

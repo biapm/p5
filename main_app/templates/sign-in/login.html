@@ -1,0 +1,57 @@
+{% extends 'base_auth.html' %}
+{% load static %}
+
+{% block title %}Iniciar Sesión{% endblock title %} 
+
+{% block content %}
+<div
+  class="container-fluid h-custom w-75 p-4 rounded-5"
+  style="background-color: rgb(228, 231, 241)"
+>
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-md-9 col-lg-6 col-xl-5">
+      <img
+        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+        class="img-fluid"
+        alt="Sample image"
+      />
+    </div>
+    <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+      <form method="post">
+        <p class="display-6">Iniciar Sesión</p>
+        <!-- Email input -->
+        {% csrf_token %}
+      
+        <div class="form-outline mb-4">
+          {{ form.as_p }}
+          {% if form.username.errors %}
+          <div class="alert alert-danger sm m-1 p-2 small" role="alert">
+            {% for error in form.username.errors %}{{ error }}{% endfor %}
+          </div>
+          {% endif %}
+          {% if form.password.errors %}
+          <div class="alert alert-danger sm m-1 p-2 small" role="alert">
+            {% for error in form.password.errors %}{{ error }}{% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        <div class="text-center text-lg-start mt-4 pt-2">
+          <button
+                type="submit"
+                class="btn btn-primary btn-lg"
+                style="padding-left: 2.5rem; padding-right: 2.5rem"
+              >
+                Entrar
+          </button>
+         
+          <p class="small fw-bold mt-2 pt-1 mb-0">
+            ¿No tienes una cuenta?
+            <a href={% url 'register' %} class="link-danger">Regístrate</a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
