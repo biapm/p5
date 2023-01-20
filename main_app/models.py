@@ -8,7 +8,10 @@ from django.contrib.auth.models import Group
 
 ci_regex = RegexValidator(
     '^\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])\d{5}$', 'Carnet de identidad invalido')
+
 tfno_regex = RegexValidator('^\+53\d{8}$', 'Telefono invalido')
+
+no_lote_regex = RegexValidator('^[A-Za-z/d]**$', "Valores invalidos, entre letras y números solamente")
 
 apto_regex = RegexValidator(
     '^([0-1][0-5]?[0-9]|\d{2})[1-3][0-1][0-9]$', 'Apartamento UCI invalido')
@@ -32,8 +35,7 @@ class OwnUserManager(BaseUserManager):
         if not email:
             raise ValueError("El usuario debe tener un email")
 
-        user = self.model(email=self.normalize_email(email), name=name,
-                          apellidos=apellidos, ci=ci, tfno=tfno, **extra_kwargs)
+        user = self.model(email=self.normalize_email(email), name=name,apellidos=apellidos, ci=ci, tfno=tfno, **extra_kwargs)
 
         user.is_customer = True
         user.set_password(password)
@@ -61,8 +63,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255, validators=[nombre_regex])
     apellidos = models.CharField(max_length=255, validators=[apellidos_regex])
-    ci = models.CharField(max_length=11, unique=True,
-                          null=False, blank=False, validators=[ci_regex])
+    ci = models.CharField(max_length=11, unique=True,null=False, blank=False, validators=[ci_regex])
     tfno = models.CharField(max_length=50, validators=[tfno_regex])
     apto = models.CharField(max_length=50, validators=[apto_regex])
     is_active = models.BooleanField(default=True)
@@ -106,8 +107,7 @@ class TipoMedicamento(models.Model):
 
 
 class TarjetaEstiba(models.Model):
-    no_serie = models.CharField(
-        max_length=255, unique=True, null=False, blank=False)
+    no_serie = models.CharField(max_length=255, unique=True, null=False, blank=False)
     precio = models.IntegerField(blank=False, null=False)
     cant_medi = models.IntegerField(blank=False, null=False)
     fecha_creacion = models.DateField(blank=False, null=False, auto_now=True)
@@ -121,12 +121,9 @@ class TarjetaEstiba(models.Model):
 
 class Medicamento(models.Model):
     nombre = models.CharField(max_length=255, blank=False, null=False)
-    no_lote = models.CharField(
-        max_length=255, unique=True, null=False, blank=False)
-    fecha_cad = models.DateField(blank=False, null=False, default=(
-        timezone.now() + timedelta(days=1825)))
-    tarjeta_estiba_id = models.OneToOneField(
-        TarjetaEstiba, on_delete=models.CASCADE, primary_key=True)
+    no_lote = models.CharField(max_length=255, unique=True, null=False, blank=False, validators=[no_lote_regex])
+    fecha_cad = models.DateField(blank=False, null=False)
+    tarjeta_estiba_id = models.OneToOneField(TarjetaEstiba, on_delete=models.CASCADE, primary_key=True)
     tipo_medicamento_id = models.ForeignKey(
         TipoMedicamento, on_delete=models.CASCADE)
 
@@ -140,8 +137,7 @@ class Medicamento(models.Model):
 class Pedido(models.Model):
     cantidad_medicamento = models.IntegerField(blank=False, null=False)
     fecha = models.DateField(blank=False, null=False, auto_now=True)
-    medicamento_id = models.ForeignKey(
-        Medicamento, on_delete=models.CASCADE)
+    medicamento_id = models.ForeignKey(Medicamento, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['fecha']
@@ -153,10 +149,8 @@ class Pedido(models.Model):
 
 class Compra(models.Model):
     fecha = models.DateField(blank=False, null=False, auto_now=True)
-    tarjeta_bancaria = models.CharField(
-        max_length=255, null=False, blank=False, validators=[tb_regex])
-    cantidad = models.IntegerField(blank=False, null=False, default=1, validators=[MaxValueValidator(3, "La cantidad debe ser menor o igual a 3"),
-                                                                                   MinValueValidator(1, "La cantidad al menos debe ser 1")])
+    tarjeta_bancaria = models.CharField(max_length=255, null=False, blank=False, validators=[tb_regex])
+    cantidad = models.IntegerField(blank=False, null=False, default=1, validators=[MaxValueValidator(3, "La cantidad debe ser menor o igual a 3"),MinValueValidator(1, "La cantidad al menos debe ser 1")])
     total_pagado = models.IntegerField(blank=False, null=False)
     medicamento_id = models.ForeignKey(Medicamento, on_delete=models.CASCADE)
     usuario_id = models.ForeignKey(User, on_delete=models.CASCADE)
